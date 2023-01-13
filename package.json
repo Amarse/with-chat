@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "my-nextron-app",
+  "name": "with-chat",
   "description": "My application description",
   "version": "1.0.0",
-  "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",
+  "author": "Hana Kim",
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "electron-serve": "^1.1.0",
-    "electron-store": "^8.1.0"
+    "electron-store": "^8.1.0",
+    "firebase": "^9.15.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
