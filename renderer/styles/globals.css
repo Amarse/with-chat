@@ -3,13 +3,30 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply font-mono;
+    width: 100vw;
+    height: 100vh;
+  }
   body {
-    @apply bg-gray-900 text-white;
+    @apply bg-gray-100 text-gray-800 box-border;
+    word-spacing: -5px;
+    overflow-x: hidden;
+    -webkit-app-region: drag;
+  }
+
+  button {
+    -webkit-app-region: no-drag;
+  }
+  .titlebar {
+    height: 20px;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
   }
 }
 
 @layer components {
-  .btn-blue {
-    @apply text-white font-bold px-4 py-2 rounded bg-blue-600 hover:bg-blue-500;
+  .content {
+    overflow-y: scoll;
   }
 }
