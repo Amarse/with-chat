@@ -1,5 +1,5 @@
 import React from 'react';
-import SingInLayout from '../../components/sign-in';
+import SingInLayout from 'features/sign-in';
 
 const SingIn = () => {
   return <SingInLayout />;

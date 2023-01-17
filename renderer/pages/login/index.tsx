@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginLayout from '../../components/login';
+import LoginLayout from 'features/login';
 
 const Login = () => {
   return <LoginLayout />;

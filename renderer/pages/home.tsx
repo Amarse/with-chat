@@ -1,8 +1,8 @@
 import electron, { BrowserWindow } from 'electron';
 import React from 'react';
-import Login from '../pages/login';
-import SingIn from '../pages/sign-in';
-import Main from '../pages/main';
+import Login from './login';
+import SingIn from './sign-in';
+import Main from './main';
 
 const Home = () => {
   return (

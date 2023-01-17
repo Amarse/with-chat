@@ -1,5 +1,5 @@
 import React from 'react';
-import MainLayout from '../../components/main';
+import MainLayout from 'features/main';
 
 const Main = () => {
   return <MainLayout />;
