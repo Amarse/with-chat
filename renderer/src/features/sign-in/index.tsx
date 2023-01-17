@@ -1,16 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from 'context/user.context';
-
+import { confirmPasswordReset } from 'firebase/auth';
+import { resultMessages } from '../helper';
+import { useFirebaseStore } from '../../lib/useStore';
 
 const Singin = () => {
   const { user, signin } = useAuth();
+  const { addUser } = useFirebaseStore('users');
   const router = useRouter();
 
   const [data, setData] = useState({
+    id: 0,
     name: '',
     email: '',
     password: '',
+    confirmPassword: '',
+    // photo: '',
   });
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,15 +43,31 @@ const Singin = () => {
     });
   };
 
+  const handleConPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({
+      ...data,
+      confirmPassword: e.target.value,
+    });
+  };
+
   const handleSummit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(data);
     try {
-      await signin(data.name, data.email, data.password);
-      router.push('/main');
+      if (data.password !== data.confirmPassword) throw new SyntaxError();
+      if (data.password === data.confirmPassword) {
+        await signin(data.name, data.email, data.password);
+        addUser({
+          email: data.email,
+          displayName: data.name,
+
+        });
+        router.push('/main');
+      }
     } catch (err) {
-      console.log(err);
-      router.push('/login');
+      const alertMessage = resultMessages[err.code]
+        ? resultMessages[err.code]
+        : '비밀번호가 같지 않습니다..';
+      alert(alertMessage);
     }
   };
   return (
@@ -100,6 +122,22 @@ const Singin = () => {
                 className='relative block w-full appearance-none text-sm border border-t-gray-200 border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-emerald-300 focus:outline-none  sm:text-sm caret-green-700'
                 placeholder='비밀번호'
                 onChange={handlePassword}
+              />
+            </div>
+            <div>
+              <label htmlFor='password' className='sr-only'>
+                패스워드 재입력
+              </label>
+              <input
+                id='password'
+                name='re-password'
+                type='password'
+                autoComplete='current-password'
+                required
+                value={data.confirmPassword}
+                className='relative block w-full appearance-none text-sm border border-t-gray-200 border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-emerald-300 focus:outline-none  sm:text-sm caret-green-700'
+                placeholder='비밀번호'
+                onChange={handleConPassword}
               />
             </div>
           </div>

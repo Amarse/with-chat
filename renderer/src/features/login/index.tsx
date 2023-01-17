@@ -1,9 +1,11 @@
 import { useAuth } from 'context/user.context';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { resultMessages } from '../helper';
 
-const Login = () => {
+const Login = (): JSX.Element => {
   const router = useRouter();
+
   const { user, login } = useAuth();
   const [data, setData] = useState({
     email: '',
@@ -20,7 +22,6 @@ const Login = () => {
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     e.preventDefault();
     setData({
       ...data,
@@ -35,7 +36,10 @@ const Login = () => {
       await login(data.email, data.password);
       router.push('/main');
     } catch (err) {
-      alert('가입하신 이메일이 없습니다.')
+      const alertMessage = resultMessages[err.code]
+        ? resultMessages[err.code]
+        : '알 수 없는 이유로 회원가입에 실패하였습니다.';
+      alert(alertMessage);
       router.push('/sign-in');
     }
   };

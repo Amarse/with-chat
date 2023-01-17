@@ -24,11 +24,12 @@ const AuthContext = createContext<any>({});
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log('dd', auth.currentUser.uid);
       if (user) {
         setUser({
           uid: user.uid,
@@ -36,7 +37,11 @@ export const AuthContextProvider = ({ children }: UserProviderProps) => {
           displayName: user.displayName,
         });
       } else {
-        setUser(null);
+        setUser({
+          uid: '',
+          email: '',
+          displayName: '',
+        });
       }
       setLoading(false);
     });
@@ -44,24 +49,34 @@ export const AuthContextProvider = ({ children }: UserProviderProps) => {
     return () => unsubscribe();
   }, []);
 
-  const signin = async (name: string, email: string, password: string) => {
-    console.log(name, email, password);
-    await createUserWithEmailAndPassword(auth, email, password);
-    const user = auth.currentUser;
-    console.log(user);
-    return await updateProfile(user, {
+  const signin = async (
+    name: string,
+    email: string,
+    password: string,
+  ) => {
+    const { user } = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await updateProfile(auth.currentUser, {
       displayName: name,
+      // profile: photo,
     });
-  };
-
-  const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
-    const user = auth.currentUser;
     return user;
   };
 
+  const login = async (email: string, password: string) => {
+    console.log();
+    return await signInWithEmailAndPassword(auth, email, password);
+  };
+
   const logout = async () => {
-    setUser(null);
+    setUser({
+      uid: '',
+      email: '',
+      displayName: '',
+    });
     await signOut(auth);
   };
 

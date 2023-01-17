@@ -1,12 +1,9 @@
 import * as firebase from 'firebase/compat/app';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth';
+import {  Timestamp, getFirestore, collection } from 'firebase/firestore';
+import 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -23,5 +20,6 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 const db = getFirestore(app); //access to the database
 const auth = getAuth(app); //access to the authentication
-
-export { db, auth, firebaseInstance, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut};
+const storage = getStorage(app);
+const timeStamp = Timestamp;
+export { db, auth, storage, firebaseInstance, timeStamp, collection };

@@ -9,7 +9,7 @@ import { useAuth } from 'context/user.context';
 import { useRouter } from 'next/router';
 
 const SideBar = (): JSX.Element => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   const logedout = () => {

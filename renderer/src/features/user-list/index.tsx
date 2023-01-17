@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import ProfileCard from 'features/chatting/dialog';
+import { useFirebaseStore } from '../../lib/useStore';
 
-const UserList = () => {
+const UserList = (): JSX.Element => {
+  const { list } = useFirebaseStore('users');
+  const user = list;
+
   return (
     <div className='w-screen h-screen '>
-      <div className='p-4'>유저 목록</div>
-
-      {/* user폼으로 map 돌려서 나타내기 */}
+      {user &&
+        user.map((item: {}, index: number) => {
+          return <ProfileCard key={index} user={item} />
+        })}
     </div>
   );
 };
