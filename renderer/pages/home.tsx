@@ -1,16 +1,10 @@
-import electron, { BrowserWindow } from 'electron';
+import Login from 'features/login';
+import SignIn from './sign-in';
 import React from 'react';
-import Login from './login';
-import SingIn from './sign-in';
-import Main from './main';
 
 const Home = () => {
   return (
-    <>
-      {/* <Login></Login> */}
-      <Main />
-      {/* <SingIn></SingIn> */}
-    </>
+      <Login />
   );
 };
 

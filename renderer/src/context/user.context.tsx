@@ -1,19 +1,73 @@
-// import { createContext, useContext, ReactNode } from 'react';
-// import useAuthFirebase from '../lib/useAuthFirebase';
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from 'react';
+import {
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
 
-// interface ProviderProps<T> {
-//   value: T;
-//   children?: ReactNode | undefined;
-// }
+import { auth } from 'Fbase';
 
-// const authContext = createContext({});
+interface UserProviderProps {
+  children: ReactNode;
+}
 
-// const AuthContextProvider = ({ children }) => {
-//   const auth = useAuthFirebase();
+const AuthContext = createContext<any>({});
 
-//   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
-// };
+export const useAuth = () => useContext(AuthContext);
 
-// const useAuth = () => useContext(authContext);
+export const AuthContextProvider = ({ children }: UserProviderProps) => {
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-// export { AuthContextProvider, useAuth };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const signin = async (name: string, email: string, password: string) => {
+    console.log(name, email, password);
+    await createUserWithEmailAndPassword(auth, email, password);
+    const user = auth.currentUser;
+    console.log(user);
+    return await updateProfile(user, {
+      displayName: name,
+    });
+  };
+
+  const login = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password);
+    const user = auth.currentUser;
+    return user;
+  };
+
+  const logout = async () => {
+    setUser(null);
+    await signOut(auth);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, signin, logout }}>
+      {loading ? null : children}
+    </AuthContext.Provider>
+  );
+};

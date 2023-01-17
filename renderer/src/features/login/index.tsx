@@ -1,11 +1,50 @@
-import React from 'react';
+import { useAuth } from 'context/user.context';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
 const Login = () => {
+  const router = useRouter();
+  const { user, login } = useAuth();
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    setData({
+      ...data,
+      email: e.target.value,
+    });
+  };
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    e.preventDefault();
+    setData({
+      ...data,
+      password: e.target.value,
+    });
+  };
+
+  const handleSummit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(data);
+    try {
+      await login(data.email, data.password);
+      router.push('/main');
+    } catch (err) {
+      alert('가입하신 이메일이 없습니다.')
+      router.push('/sign-in');
+    }
+  };
+
   return (
     <section>
       <div className='flex flex-col h-screen items-center pt-40 px-4 sm:px-6 lg:px-8 bg-emerald-500'>
         <h1 className='text-lg text-gray-700'>로그인</h1>
-        <form className='mt-8 space-y-4' action='#' method='POST'>
+        <form className='mt-8 space-y-4' action='#' onSubmit={handleSummit}>
           <div className='-space-y-px rounded-lg'>
             <div>
               <label htmlFor='email-address' className='sr-only'>
@@ -15,10 +54,12 @@ const Login = () => {
                 id='email-address'
                 name='email'
                 type='email'
+                value={data.email}
                 autoComplete='email'
                 required
                 className='relative block w-60 appearance-none rounded-none text-sm border border-b-transparent border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-emerald-300 focus:outline-none  sm:text-sm caret-green-700'
                 placeholder='이메일'
+                onChange={handleEmail}
               />
             </div>
             <div>
@@ -31,21 +72,22 @@ const Login = () => {
                 type='password'
                 autoComplete='current-password'
                 required
+                value={data.password}
                 className='relative block w-full appearance-none rounded-none text-sm border border-t-gray-200 border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-emerald-300 focus:outline-none  sm:text-sm caret-green-700'
                 placeholder='비밀번호'
+                onChange={handlePassword}
               />
             </div>
           </div>
 
           <button
             type='submit'
-            disabled
             className='disabled:bg-gray-300 group relative flex w-full justify-center border  border-gray-400 bg-emerald-500 py-2 px-4 text-sm font-medium text-gray-400 hover:bg-emerald-700 focus:outline-none'
           >
             <span>로그인</span>
           </button>
 
-          <div className='flex items-center align-center mb-8 pt-2'>
+          {/* <div className='flex items-center align-center mb-8 pt-2'>
             <input
               id='remember-me'
               name='remember-me'
@@ -58,9 +100,9 @@ const Login = () => {
             >
               실행시 자동 로그인
             </label>
-          </div>
+          </div> */}
         </form>
-        <div className='flex items-center justify-center py-12 px-4'>
+        {/* <div className='flex items-center justify-center py-12 px-4'>
           <div className='text-sm px-4 border-r border-emerald-400'>
             <a href='#' className=' text-emerald-700 hover:text-emerald-500'>
               이메일 찾기
@@ -71,7 +113,7 @@ const Login = () => {
               비밀번호 찾기
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

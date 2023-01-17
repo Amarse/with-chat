@@ -1,67 +1,87 @@
 // import { useState, useEffect } from 'react';
-// import { IUser } from '../types/index.js';
+// import { auth, firebaseInstance } from 'Fbase';
+// import { signInWithEmailAndPassword } from 'firebase/auth';
+// import { useRouter } from 'next/router';
 // import {
-//   auth,
-//   signInWithEmailAndPassword,
-//   createUserWithEmailAndPassword,
-//   signOut,
-//   firebaseInstance,
-// } from '../Fbase';
+//   removeUserCookie,
+//   setUserCookie,
+//   getUserFromCookie,
+// } from './userCookie';
 
-// const formatAuthUser = (user: IUser) => ({
-//   uid: user.uid,
-//   email: user.email,
-//   password: user.password,
-// });
+// // const login = (email: string, password: string) => {
+// //   console.log('dddd', email, password);
 
-// const useAuthFirebase = () => {
-//   const [user, setUser] = useState<IUser>(null);
-//   const [isLoading, setIsLoading] = useState<boolean>(true);
+// //   setErr(null);
 
-//   const authStateChanged = async (state: {}) => {
-//     if (!state) {
-//       setUser(null);
-//       setIsLoading(false);
-//       return;
-//     }
+// //   signInWithEmailAndPassword(auth, email, password)
+// //     .then((credential) => {
+// //       const user = credential.user;
+// //       console.log(user);
+// //       if (!user) {
+// //         throw new Error('회원가입에 실패했습니다.');
+// //       }
+// //       router.push('/main');
+// //     })
+// //     .catch((err) => {
+// //       setErr(err.message);
+// //     });
+// // };
 
-//     setIsLoading(true);
-//     let fomatUser = formatAuthUser;
-//     setUser(fomatUser);
-//     setIsLoading(false);
-//   };
-
-//   const clear = () => {
-//     setUser(null);
-//     setIsLoading(true);
-//   };
-
-//   const EmailAndPassword = (auth, email: string, password: string) => {
-//     signInWithEmailAndPassword(auth, email, password);
-//   };
-
-//   const createUserWithEmailAndPassword = (email: string, password: string) => {
-//     createUserWithEmailAndPassword(email, password);
-//   };
-
-//   const signOut = () => {
-//     signOut().then(clear);
-//   };
-
-//   useEffect(() => {
-//     const unsubscribe = firebaseInstance
-//       .auth()
-//       .onAuthStateChanged(authStateChanged);
-//     return () => unsubscribe();
-//   });
-
+// export const mapUserData = async (user) => {
+//   const { uid, email } = user;
+//   const token = await user.getIdToken(true);
 //   return {
-//     user,
-//     isLoading,
-//     signInWithEmailAndPassword,
-//     createUserWithEmailAndPassword,
-//     signOut,
+//     id: uid,
+//     email,
+//     token,
 //   };
 // };
 
-// export default useAuthFirebase;
+// const useUser = () => {
+//   const [user, setUser] = useState<string | null>(null);
+//   const router = useRouter();
+
+//   const logout = async () => {
+//     return auth
+//       .signOut()
+//       .then(() => {
+//         router.push('/');
+//       })
+//       .catch((e) => {
+//         console.error(e);
+//       });
+//   };
+
+//   useEffect(() => {
+//     const cancel = auth.onIdTokenChanged(async (userToken) => {
+//       if (userToken) {
+//         const userData = await mapUserData(userToken);
+//         setUserCookie(userData);
+//         setUser(userData);
+//       } else {
+//         removeUserCookie();
+//         setUser(null);
+//       }
+//     });
+//     const userFormCookie = getUserFromCookie();
+//     if(!userFormCookie){
+//       return;
+//     } 
+//     setUser(userFormCookie);
+//     return () => cancel;
+//   }, []);
+
+
+
+//     const userFromCookie = getUserFromCookie();
+//     if (!userFromCookie) {
+//       return;
+//     }
+//     setUser(userFromCookie);
+//     return () => cancelAuthListener;
+//   }, []);
+
+//   return { user, logout };
+// };
+
+// export { useUser };

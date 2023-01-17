@@ -1,10 +1,13 @@
 export interface IUser {
-  uid: string;
+  uid?: string;
   email: string;
   password: string;
+  disPlayName?: string;
 }
 
-export interface IUserin {
-  user: IUser;
-  loading: boolean;
+
+export interface FirebaseUser {
+  uid: string;
+  email: string;
+  disPlayName: string;
 }

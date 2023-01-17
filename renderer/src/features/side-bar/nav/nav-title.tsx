@@ -25,7 +25,6 @@ const NavTitle = (props: NavTitleProps): JSX.Element => {
             alt={title}
             layout='fill' 
             objectFit='cover'
-            color='#fff'
           />
         </div>
       </button>

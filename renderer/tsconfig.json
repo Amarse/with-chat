@@ -7,6 +7,7 @@
     "baseUrl": ".",
     "paths": {
       "features/*": ["src/features/*"],
+      "context/*": ["src/context/*"],
       "assets/*": ["public/assets/*"]
     }
   }

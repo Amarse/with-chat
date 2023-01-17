@@ -4,9 +4,9 @@ import SideBar from '../side-bar';
 
 const Main = () => {
   return (
-    <section className='h-screen flex flex-row'>
+    <main className='h-screen flex flex-row'>
       <SideBar />
-    </section>
+    </main>
   );
 };
 
