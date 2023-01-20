@@ -17,7 +17,7 @@ const Navs = (props: Props): JSX.Element => {
   // const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <nav className='flex w-20 h-screen' aria-label='Sidebar'>
+    <nav className='flex w- full h-screen static' aria-label='Sidebar'>
       <div className='px-3 py-4 h-screen  bg-gray-300'>
         <ul className='grid justify-items-center'>
           {children.map((item, index) => (
@@ -29,30 +29,8 @@ const Navs = (props: Props): JSX.Element => {
               title={item.props.title}
             />
           ))}
-          {/* <li className='relative'>
-            <a
-              href='#'
-              className='p-2 text-base font-normal text-gray-900  hover:text-gray-700'
-            >
-              <UserIcon className='flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75  hover:text-gray-700' />
-            </a>
-          </li>
-          <li className='relative'>
-            <a
-              href='#'
-              className='p-2 text-base font-normal text-gray-900  hover:text-gray-700'
-            >
-              <PrivateIcon className='flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75  hover:text-gray-700' />
-            </a>
-          </li>
-          <li className='relative'>
-            <a href='#' className='p-2 text-base font-normal'>
-              <GroupIcon className='flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75  hover:text-gray-700' />
-            </a>
-          </li> */}
         </ul>
       </div>
-      
       {children[selectedNavIndex]}
     </nav>
   );

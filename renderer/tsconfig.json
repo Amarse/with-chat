@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-  "include": [ "custom.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["custom.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "jsx": "preserve",
@@ -8,7 +8,8 @@
     "paths": {
       "features/*": ["src/features/*"],
       "context/*": ["src/context/*"],
-      "assets/*": ["public/assets/*"]
+      "assets/*": ["public/assets/*"],
+      "elements/*": ["src/elements/*"]
     }
   }
 }

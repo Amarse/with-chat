@@ -1,18 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import ProfileCard from 'features/chatting/dialog';
-import { useFirebaseStore } from '../../lib/useStore';
+import { useRouter } from 'next/router';
+// import { useDocuments } from 'src/hooks/useDouments';
+import { useCollection } from '../../hooks/useCollection';
+import User from './user';
 
 const UserList = (): JSX.Element => {
-  const { list } = useFirebaseStore('users');
-  const user = list;
+  const { list } = useCollection('users');
+  const router = useRouter();
+  const [selectedUser, setSelectedIndex] = useState(null);
 
+  const onClick = (e) => {
+    console.log(selectedUser);
+    selectedUser(e.currentTarget.value);
+  };
   return (
-    <div className='w-screen h-screen '>
-      {user &&
-        user.map((item: {}, index: number) => {
-          return <ProfileCard key={index} user={item} />
+    <main className='h-screen  fit-content'>
+      <h2 className='p-4 w-full  border-b  border-gray-200 '>유저 목록</h2>
+      {list &&
+        list.map((user: {}, index: number) => {
+          return (
+            <User
+              user={user}
+              index={index}
+              isActive={index === selectedUser}
+              key={index}
+              setSelectedUser={setSelectedIndex}
+            />
+          );
         })}
-    </div>
+    </main>
   );
 };
 

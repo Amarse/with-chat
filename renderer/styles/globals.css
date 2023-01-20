@@ -7,12 +7,14 @@
     @apply font-mono;
     width: 100vw;
     height: 100vh;
+    position: relative;
   }
   body {
     @apply bg-gray-100 text-gray-800 box-border;
     word-spacing: -5px;
     overflow-x: hidden;
     -webkit-app-region: drag;
+    position: relative;
   }
 
   button {
@@ -22,6 +24,14 @@
     height: 20px;
     -webkit-user-select: none;
     -webkit-app-region: drag;
+  }
+
+  .empty-photo,
+  .image {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
   }
 }
 

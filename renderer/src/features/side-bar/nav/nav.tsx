@@ -8,7 +8,7 @@ type Props = {
 };
 
 const Nav = ({ children }: Props): JSX.Element => {
-  return <div>{children}</div>;
+  return <div className='static w-screen'>{children}</div>;
 };
 
 export default Nav;

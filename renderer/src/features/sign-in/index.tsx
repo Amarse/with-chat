@@ -1,22 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from 'context/user.context';
-import { confirmPasswordReset } from 'firebase/auth';
 import { resultMessages } from '../helper';
-import { useFirebaseStore } from '../../lib/useStore';
+import { useAddUser } from '../../hooks/useAuth';
 
 const Singin = () => {
   const { user, signin } = useAuth();
-  const { addUser } = useFirebaseStore('users');
+  const { addUser } = useAddUser('users');
   const router = useRouter();
 
   const [data, setData] = useState({
-    id: 0,
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    // photo: '',
   });
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +56,6 @@ const Singin = () => {
         addUser({
           email: data.email,
           displayName: data.name,
-
         });
         router.push('/main');
       }
@@ -72,7 +68,7 @@ const Singin = () => {
   };
   return (
     <section>
-      <div className='flex flex-col h-screen items-center pt-40 px-4  sm:px-6 lg:px-8  bg-emerald-500'>
+      <div className='flex flex-col h-screen items-center pt-40 px-4  sm:px-6 lg:px-8  bg-white'>
         <h2 className='text-lg  text-gray-700'>회원가입</h2>
         <form className='mt-8 space-y-4' action='#' onSubmit={handleSummit}>
           <div className='-space-y-px'>

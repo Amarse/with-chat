@@ -1,9 +1,10 @@
-import * as firebase from 'firebase/compat/app';
+import * as firebase from 'firebase/app';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import {  Timestamp, getFirestore, collection } from 'firebase/firestore';
 import 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
+// import { Query } from '@firebase/firestore-types'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -18,8 +19,10 @@ const firebaseConfig = {
 const firebaseInstance = firebase;
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-const db = getFirestore(app); //access to the database
+const dbService = getFirestore(); //access to the database
 const auth = getAuth(app); //access to the authentication
 const storage = getStorage(app);
 const timeStamp = Timestamp;
-export { db, auth, storage, firebaseInstance, timeStamp, collection };
+
+
+export { dbService, auth, storage, firebaseInstance, timeStamp, collection };

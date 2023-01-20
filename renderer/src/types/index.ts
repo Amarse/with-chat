@@ -6,8 +6,10 @@ export interface IUser {
 }
 
 
-export interface FirebaseUser {
+export interface UserList {
   uid: string;
   email: string;
   disPlayName: string;
 }
+
+

@@ -13,28 +13,39 @@ import {
   updateProfile,
 } from 'firebase/auth';
 
-import { auth } from 'Fbase';
+import { auth, dbService, storage } from 'Fbase';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 interface UserProviderProps {
   children: ReactNode;
 }
 
+type signupType = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 const AuthContext = createContext<any>({});
 
 export const useAuth = () => useContext(AuthContext);
 
+
 export const AuthContextProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log('dd', auth.currentUser.uid);
+      console.log('dd', user);
+    
       if (user) {
         setUser({
-          uid: user.uid,
+          id: user.uid,
           email: user.email,
           displayName: user.displayName,
+          stsTokenManager: true,
         });
       } else {
         setUser({
@@ -49,20 +60,17 @@ export const AuthContextProvider = ({ children }: UserProviderProps) => {
     return () => unsubscribe();
   }, []);
 
-  const signin = async (
-    name: string,
-    email: string,
-    password: string,
-  ) => {
+  const signin = async (name: string, email: string, password: string) => {
     const { user } = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
+
     await updateProfile(auth.currentUser, {
       displayName: name,
-      // profile: photo,
     });
+
     return user;
   };
 
@@ -76,6 +84,7 @@ export const AuthContextProvider = ({ children }: UserProviderProps) => {
       uid: '',
       email: '',
       displayName: '',
+      returnSecureToken: false,
     });
     await signOut(auth);
   };

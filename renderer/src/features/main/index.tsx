@@ -1,5 +1,5 @@
 import React from 'react';
-import Chatting from '../chatting';
+import Chatting from '../channel';
 import SideBar from '../side-bar';
 
 const Main = () => {

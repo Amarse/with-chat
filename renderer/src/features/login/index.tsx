@@ -40,13 +40,13 @@ const Login = (): JSX.Element => {
         ? resultMessages[err.code]
         : '알 수 없는 이유로 회원가입에 실패하였습니다.';
       alert(alertMessage);
-      router.push('/sign-in');
+      // router.push('/sign-in');
     }
   };
 
   return (
     <section>
-      <div className='flex flex-col h-screen items-center pt-40 px-4 sm:px-6 lg:px-8 bg-emerald-500'>
+      <div className='flex flex-col h-screen items-center pt-40 px-4 sm:px-6 lg:px-8 bg-gray-200'>
         <h1 className='text-lg text-gray-700'>로그인</h1>
         <form className='mt-8 space-y-4' action='#' onSubmit={handleSummit}>
           <div className='-space-y-px rounded-lg'>
@@ -61,7 +61,7 @@ const Login = (): JSX.Element => {
                 value={data.email}
                 autoComplete='email'
                 required
-                className='relative block w-60 appearance-none rounded-none text-sm border border-b-transparent border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-emerald-300 focus:outline-none  sm:text-sm caret-green-700'
+                className=' bg-gray-100 relative block w-60 appearance-none rounded-none text-sm border border-b-transparent border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:outline-none  sm:text-sm caret-green-700'
                 placeholder='이메일'
                 onChange={handleEmail}
               />
@@ -77,7 +77,7 @@ const Login = (): JSX.Element => {
                 autoComplete='current-password'
                 required
                 value={data.password}
-                className='relative block w-full appearance-none rounded-none text-sm border border-t-gray-200 border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:border-emerald-300 focus:outline-none  sm:text-sm caret-green-700'
+                className=' bg-gray-100 relative block w-full appearance-none rounded-none text-sm border border-t-gray-200 border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:outline-none  sm:text-sm caret-green-700'
                 placeholder='비밀번호'
                 onChange={handlePassword}
               />
@@ -86,7 +86,7 @@ const Login = (): JSX.Element => {
 
           <button
             type='submit'
-            className='disabled:bg-gray-300 group relative flex w-full justify-center border  border-gray-400 bg-emerald-500 py-2 px-4 text-sm font-medium text-gray-400 hover:bg-emerald-700 focus:outline-none'
+            className='disabled:bg-gray-300 group relative flex w-full justify-center border  border-gray-400 bg-gray-100 py-2 px-4 text-sm font-medium text-gray-400 hover:bg-gray-500 focus:outline-none'
           >
             <span>로그인</span>
           </button>
