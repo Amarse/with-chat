@@ -25,28 +25,25 @@ export const useChannel = (transaction: any) => {
   // 데이터 조회
 };
 
-export const useGetMessages = (transaction, myQuery) => {
-  console.log('dddd',transaction)
+export const useGetMessages = (transaction) => {
+  console.log('dddd', transaction);
   const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
   console.log(documents);
 
   useEffect(() => {
-    let q;
-    if (myQuery) {
-      q = query(
-        collection(dbService, transaction),
-        // where.apply(null, [...myQuery]),
-        orderBy('createAt'),
-        limit(1000)
-      );
-    }
+    const q = query(
+      collection(dbService, transaction),
+      orderBy('createAt'),
+      limit(1000)
+    );
+
     const unsubscribe = onSnapshot(
-      myQuery ? q : collection(dbService, transaction),
+      collection(dbService, transaction),
       (snapshot) => {
         let result = [];
         snapshot.docs.forEach((doc) => {
-          console.log(doc)
+          console.log(doc);
           result.push({ ...doc.data(), id: doc.id });
         });
         setDocuments(result);

@@ -6,13 +6,12 @@ import Private from '../../src/features/channel/private';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 
 const ChatRoom = (props) => {
-  console.log('안넘어온다?',props);
   const router = useRouter();
   const { id, displayName } = router.query;
   console.log('이건 왜',id, displayName);
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
 
-  return <>{user && <Private id={id} displayName={displayName} user={user} />}</>;
+  return <>{currentUser && <Private id={id} displayName={displayName} currentUser={currentUser} />}</>;
 };
 
 export default ChatRoom;

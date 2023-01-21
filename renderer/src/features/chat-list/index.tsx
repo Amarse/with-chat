@@ -1,42 +1,41 @@
-import electron, { BrowserWindow } from 'electron';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-// import { useDocuments } from 'src/hooks/useDouments';
-import { useCollection } from '../../hooks/useCollection';
-import User from './chat';
+import { Timestamp } from 'firebase/firestore';
+import Chat from './chat';
+import { usePrivate } from 'src/hooks/usePrivate';
+
+export type UserType = {
+  createdTime?: Timestamp;
+  email: string;
+  displayName: string;
+  id?: string | number;
+};
 
 const ChatList = (): JSX.Element => {
-  const { list } = useCollection('users');
+  const { list } = usePrivate('messages');
   const router = useRouter();
-  const [selectedUser, setSelectedIndex] = useState(null);
-  console.log(list);
-
-  // const ipcRenderer = electron.ipcRenderer;
-
-  // const openWindow = () => {
-  //   ipcRenderer.send("show-channel");
-  // };
+  console.log(list)
 
   const onClick = (e) => {
-    console.log(selectedUser);
-    selectedUser(e.currentTarget.value);
+    const {id, displayName } = e;
+    router.push({ pathname: '/chat-room/[id]', query: { id: id, displayName: displayName } });
   };
+
   return (
     <main>
       <div className='pl-20 py-4 w-full bg-gray-100 fixed top-0'>
-        <h2 className='text-lg font-bold' >채팅</h2>
+        <h2 className='text-lg font-bold'>1:1</h2>
       </div>
       <div className='overflow-y-auto w-full'>
         {list &&
-          list.map((user: {}, index: number) => {
+          list.map((user: UserType, index: number) => {
+            
             return (
-              <User
+              <Chat
                 user={user}
                 index={index}
-                isActive={index === selectedUser}
-                key={index}
-                // openHandler={openWindow}
-                setSelectedUser={setSelectedIndex}
+                key={user.id}
+                onClick={() => onClick(user)}
               />
             );
           })}

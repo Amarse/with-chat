@@ -48,7 +48,7 @@ const Navs = (props: Props): JSX.Element => {
           </button>
         </ul>
       </nav>
-      <div className='list pt-20'>{children[selectedNavIndex]}</div>
+      <div className='list pt-30'>{children[selectedNavIndex]}</div>
     </div>
   );
 };

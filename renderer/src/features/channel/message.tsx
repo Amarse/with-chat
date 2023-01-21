@@ -11,18 +11,18 @@ const Message = (props): JSX.Element => {
     photoURL = '',
     isRead = false,
   } = props;
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
   if (!message) return null;
   return (
     <>
       <div
         className={`flex items-start flex-wrap p-4 ${
-          uid === user?.id && 'flex-row-reverse'
+          uid === currentUser?.id && 'flex-row-reverse'
         }`}
       >
-        {user?.id !== uid && (
+        {currentUser?.id !== uid && (
           <>
-            <div className={`w-10 ${uid === user?.id ? '' : 'mr-2'}`}>
+            <div className={`w-10 ${uid === currentUser?.id ? '' : 'mr-2'}`}>
               <img
                 src='/assets/images/circle.png'
                 alt='Avatar'
@@ -35,7 +35,7 @@ const Message = (props): JSX.Element => {
         )}
         <div
           className={`p-2 rounded-lg text-sm  ${
-            uid === user.id ? 'bg-rose-400 text-white ' : 'bg-gray-300'
+            uid === currentUser.id ? 'bg-rose-400 text-white ' : 'bg-gray-300'
           }`}
         >
           {message}
@@ -44,7 +44,7 @@ const Message = (props): JSX.Element => {
           {createdAt?.seconds ? (
             <span
               className={`text-gray-500 text-xs ${
-                uid === user?.id && 'flex-row-reverse'
+                uid === currentUser?.id && 'flex-row-reverse'
               }`}
             >
               {/* {isRead === false && uid === user.id && (

@@ -14,14 +14,14 @@ type ChannelPropsType = {
     displayName: string;
   };
 };
-const Private = ({ id = null, displayName = null ,user = null }): JSX.Element => {
-  console.log(user.id)
+const Private = ({ id = null, displayName = null , currentUser = null }): JSX.Element => {
+  console.log(currentUser.id)
   console.log(id, displayName)
   
   
   const router = useRouter();
   const { addMessage } = useMessage(`messages-${id}`);
-  const messagesRef = useGetMessages(`messages-${id}`, id);
+  const messagesRef = useGetMessages(`messages-${id}`);
 
   const messages = messagesRef.documents;
   console.log('ehzb',messages);
@@ -42,9 +42,9 @@ const Private = ({ id = null, displayName = null ,user = null }): JSX.Element =>
     const trimmedMessage = newMessage.trim();
     if (trimmedMessage) {
       addMessage({
-        displayName: user.displayName,
+        displayName: currentUser.displayName,
         message: trimmedMessage,
-        uid: user.id,
+        uid: currentUser.id,
         isRead: false,
       });
       setNewMessage('');

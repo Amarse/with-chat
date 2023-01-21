@@ -2,13 +2,15 @@ import { UserType } from '../index';
 
 type PropsType = {
   user: UserType;
+  key : string | number;
   index: number;
   onClick: (e: React.MouseEvent) => void;
 };
 
 const User = (props: PropsType): JSX.Element => {
   const { user, onClick } = props;
-//  
+
+
   return (
     <div
       className='flex pl-20 border-b p-2 border-gray-200 cursor-pointer hover:bg-gray-200'
