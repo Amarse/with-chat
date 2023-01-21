@@ -26,6 +26,7 @@ export const useChannel = (transaction: any) => {
 };
 
 export const useGetMessages = (transaction, myQuery) => {
+  console.log('dddd',transaction)
   const [documents, setDocuments] = useState(null);
   const [error, setError] = useState(null);
   console.log(documents);
@@ -35,7 +36,7 @@ export const useGetMessages = (transaction, myQuery) => {
     if (myQuery) {
       q = query(
         collection(dbService, transaction),
-        // where({...myQuery}),
+        // where.apply(null, [...myQuery]),
         orderBy('createAt'),
         limit(1000)
       );
@@ -45,7 +46,7 @@ export const useGetMessages = (transaction, myQuery) => {
       (snapshot) => {
         let result = [];
         snapshot.docs.forEach((doc) => {
-          console.log('ff', doc.displayName);
+          console.log(doc)
           result.push({ ...doc.data(), id: doc.id });
         });
         setDocuments(result);
@@ -68,7 +69,6 @@ export const useMessage = (transaction) => {
   const addM = collection(dbService, transaction);
   const addMessage = async (messages) => {
     try {
-      // const id = messages.user.id;
       const createdAt = timeStamp.fromDate(new Date());
       console.log('id', messages);
       await addDoc(addM, { ...messages, createdAt });
