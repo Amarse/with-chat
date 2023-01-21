@@ -1,5 +1,4 @@
-import Login from 'features/login';
-// import SignIn from './sign-in';
+import Login from 'pages/login';
 import React from 'react';
 import SingIn from './sign-in';
 

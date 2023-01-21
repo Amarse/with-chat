@@ -2,7 +2,9 @@ import React, { ReactElement, useState } from 'react';
 import UserIcon from 'assets/images/user.svg';
 import PrivateIcon from 'assets/images/private.svg';
 import GroupIcon from 'assets/images/group.svg';
+import { useRouter } from 'next/router';
 import NavTitle, { NavTitleProps } from './nav-title';
+import { useAuth } from 'context/user.context';
 
 type Props = {
   children: ReactElement<NavTitleProps>[];
@@ -16,10 +18,22 @@ const Navs = (props: Props): JSX.Element => {
   );
   // const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const { user, logout } = useAuth();
+  const router = useRouter();
+
+  const logedout = () => {
+    console.log('ee');
+    logout();
+    router.push('/login');
+  };
+
   return (
-    <nav className='flex w- full h-screen static' aria-label='Sidebar'>
-      <div className='px-3 py-4 h-screen  bg-gray-300'>
-        <ul className='grid justify-items-center'>
+    <div>
+      <nav
+        className='h-full bg-fixed fixed bg-gray-300 px-3 py-4 z-10'
+        aria-label='Sidebar'
+      >
+        <ul className=''>
           {children.map((item, index) => (
             <NavTitle
               key={item.props.title}
@@ -29,10 +43,13 @@ const Navs = (props: Props): JSX.Element => {
               title={item.props.title}
             />
           ))}
+          <button onClick={logedout} className='absolute bottom-0'>
+            로그아웃
+          </button>
         </ul>
-      </div>
-      {children[selectedNavIndex]}
-    </nav>
+      </nav>
+      <div className='list pt-20'>{children[selectedNavIndex]}</div>
+    </div>
   );
 };
 

@@ -3,39 +3,40 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 // import { useDocuments } from 'src/hooks/useDouments';
 import { useCollection } from '../../hooks/useCollection';
-import User from './user';
-import { Timestamp } from 'firebase/firestore';
+import User from './chat';
 
-export type UserType = {
-  createdTime?: Timestamp;
-  email: string;
-  displayName: string;
-  id?: string | number;
-};
-
-const UserList = (): JSX.Element => {
+const ChatList = (): JSX.Element => {
   const { list } = useCollection('users');
   const router = useRouter();
+  const [selectedUser, setSelectedIndex] = useState(null);
   console.log(list);
 
-  const onClick = (e) => {
-    console.log(e);
+  // const ipcRenderer = electron.ipcRenderer;
 
+  // const openWindow = () => {
+  //   ipcRenderer.send("show-channel");
+  // };
+
+  const onClick = (e) => {
+    console.log(selectedUser);
+    selectedUser(e.currentTarget.value);
   };
   return (
     <main>
       <div className='pl-20 py-4 w-full bg-gray-100 fixed top-0'>
-        <h2 className='text-lg font-bold'>친구</h2>
+        <h2 className='text-lg font-bold' >채팅</h2>
       </div>
       <div className='overflow-y-auto w-full'>
         {list &&
-          list.map((user: UserType, index: number) => {
+          list.map((user: {}, index: number) => {
             return (
               <User
                 user={user}
                 index={index}
-                key={user.id}
-                onClick={() => onClick(user.id)}
+                isActive={index === selectedUser}
+                key={index}
+                // openHandler={openWindow}
+                setSelectedUser={setSelectedIndex}
               />
             );
           })}
@@ -44,4 +45,4 @@ const UserList = (): JSX.Element => {
   );
 };
 
-export default UserList;
+export default ChatList;

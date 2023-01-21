@@ -45,7 +45,7 @@ export const useGetMessages = (transaction, myQuery) => {
       (snapshot) => {
         let result = [];
         snapshot.docs.forEach((doc) => {
-          console.log('ff', doc.id);
+          console.log('ff', doc.displayName);
           result.push({ ...doc.data(), id: doc.id });
         });
         setDocuments(result);

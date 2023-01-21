@@ -7,6 +7,7 @@ export const useAddUser = (transaction) => {
   const userAdd = collection(dbService, transaction);
 
   const addUser = async (user) => {
+    console.log(user)
     try {
       const createdAt = timeStamp.fromDate(new Date());
       await addDoc(userAdd, { ...user, createdAt });

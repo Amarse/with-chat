@@ -1,31 +1,25 @@
+import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import type { ReactElement, ReactNode } from 'react';
 import '../styles/globals.css';
-import { useAuth } from 'context/user.context';
-import Login from 'features/login';
 import { AuthContextProvider } from 'context/user.context';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-  const queries = router.query; // 전달받은 쿼리 내용
-  console.log(queries);
-  // useEffect(() => {
-  //   if (!router.isReady) return;
-  //   console.log(queries);
-  // }, [router.isReady]);
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
 
-  const { user } = useAuth();
-  return (
-    <div>
-      {!user ? (
-        <AuthContextProvider>
-          <Component {...pageProps} />
-        </AuthContextProvider>
-      ) : (
-        <Login />
-      )}
-    </div>
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  return getLayout(
+    <AuthContextProvider>
+      <Component  {...pageProps} />
+    </AuthContextProvider>
   );
 }
 
