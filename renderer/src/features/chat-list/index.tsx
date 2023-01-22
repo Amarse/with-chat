@@ -4,6 +4,8 @@ import { Timestamp } from 'firebase/firestore';
 import Chat from './chat';
 import { usePrivate } from 'src/hooks/usePrivate';
 import { useAuth } from 'context/user.context';
+import { useGetChatRooms, useGetMessages } from 'src/hooks/useChannel';
+import { useCollection } from 'src/hooks/useUserList';
 
 export type UserType = {
   createdTime?: Timestamp;
@@ -13,11 +15,13 @@ export type UserType = {
 };
 
 const ChatList = (): JSX.Element => {
-  
-  const { chatList } = usePrivate('messages');
   const router = useRouter();
-  console.log('ddd', chatList);
-
+  const { id, displayName } = router.query;
+  const { list } = useCollection('users');
+  const { currentUser } = useAuth();
+  const { chatRooms } = useGetChatRooms();
+  // const messagesRef = useGetMessages('chatRoom', `messages-${id}`);
+  console.log('chatRooms', chatRooms);
   const onClick = (e) => {
     const { id, displayName } = e;
     router.push({
@@ -32,8 +36,8 @@ const ChatList = (): JSX.Element => {
         <h2 className='text-lg font-bold'>1:1</h2>
       </div>
       <div className='overflow-y-auto w-full'>
-        {/* {chatList &&
-          chatList.map((user: UserType, index: number) => {
+        {chatRooms &&
+          chatRooms.map((user: UserType, index: number) => {
             return (
               <Chat
                 user={user}
@@ -42,7 +46,7 @@ const ChatList = (): JSX.Element => {
                 onClick={() => onClick(user)}
               />
             );
-          })} */}
+          })}
       </div>
     </main>
   );

@@ -2,7 +2,7 @@ import electron ,{BrowserWindow }from "electron";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 // import { useDocuments } from 'src/hooks/useDouments';
-import { useCollection } from '../../hooks/useCollection';
+import { useCollection } from '../../hooks/useUserList';
 import Group from './group';
 
 const GroupList = (): JSX.Element => {

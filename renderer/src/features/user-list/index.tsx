@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useCollection } from '../../hooks/useCollection';
+import { useCollection } from '../../hooks/useUserList';
 import User from './user';
 import { Timestamp } from 'firebase/firestore';
 import { useAuth } from 'context/user.context';
@@ -16,13 +16,11 @@ export type UserType = {
 const UserList = (): JSX.Element => {
   const { list } = useCollection('users');
   const router = useRouter();
-  console.log('ddd',list);
   const { currentUser } = useAuth();
-  console.log(currentUser);
-  // 나를 뺀 나머지 리스트만 보여준다.
-
+  
   const onClick = (e) => {
     const { id, displayName } = e;
+    // if (id === id) return;
     router.push({
       pathname: '/chat-room/[id]',
       query: { id: id, displayName: displayName },
@@ -37,17 +35,16 @@ const UserList = (): JSX.Element => {
       </div>
       <div className='overflow-y-auto w-full pt-40'>
         {list &&
-          list
-            .map((user: UserType, index: number) => {
-              return (
-                <User
-                  user={user}
-                  index={index}
-                  key={user.id}
-                  onClick={() => onClick(user)}
-                />
-              );
-            })}
+          list.map((user: UserType, index: number) => {
+            return (
+              <User
+                user={user}
+                index={index}
+                key={user.id}
+                onClick={() => onClick(user)}
+              />
+            );
+          })}
       </div>
     </main>
   );

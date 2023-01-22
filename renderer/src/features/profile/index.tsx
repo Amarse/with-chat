@@ -1,16 +1,17 @@
 import { useAuth } from "context/user.context";
 
 type PropsType = {
-  onClick: (e: React.MouseEvent) => void;
+  onClick?: (e: React.MouseEvent) => void;
+
 };
 
 const Profile = (props: PropsType): JSX.Element => {
   const { currentUser } = useAuth();
   const { onClick } = props;
-//  
+
   return (
     <div
-      className='flex mt-4 mb-2  border-gray-200 cursor-pointer hover:bg-gray-200'
+      className='flex mt-4 mb-2  border-gray-200 cursor-pointer'
       onClick={onClick}
     >
       <div className='item flex justify-center'>

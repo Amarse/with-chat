@@ -24,9 +24,8 @@ const Private = ({
   console.log(id, displayName);
 
   const router = useRouter();
-  const { addMessage } = useMessage('chatRoom',  `messages-${id}`);
-  const messagesRef = useGetMessages('chatRoom', `messages-${id}`);
-  console.log(messagesRef);
+  const { addMessage } = useMessage(`messages-${id}`);
+  const messagesRef = useGetMessages(`messages-${id}`);
 
   const messages = messagesRef.documents;
 
@@ -42,7 +41,7 @@ const Private = ({
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(e);
+    console.log('dd',e);
     e.preventDefault();
 
     const trimmedMessage = newMessage.trim();

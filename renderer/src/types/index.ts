@@ -5,11 +5,8 @@ export interface IUser {
   disPlayName?: string;
 }
 
-
-export interface UserList {
-  uid: string;
-  email: string;
-  disPlayName: string;
+export interface UserData {
+  uid?: string;
+  userName?: string;
+  photoURL?: string;
 }
-
-

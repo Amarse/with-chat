@@ -5,7 +5,7 @@ import { useAuth } from 'context/user.context';
 import Private from '../../src/features/channel/private';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 
-const ChatRoom = (props) => {
+const ChatRoom = () => {
   const router = useRouter();
   const { id, displayName } = router.query;
   console.log('이건 왜',id, displayName);
