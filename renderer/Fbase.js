@@ -4,6 +4,7 @@ import {  Timestamp, getFirestore, collection } from 'firebase/firestore';
 import 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
+import { getDatabase } from "firebase/database";
 // import { Query } from '@firebase/firestore-types'
 
 const firebaseConfig = {
@@ -23,6 +24,7 @@ const dbService = getFirestore(); //access to the database
 const auth = getAuth(app); //access to the authentication
 const storage = getStorage(app);
 const timeStamp = Timestamp;
+const db = getDatabase();
 
 
-export { dbService, auth, storage, firebaseInstance, timeStamp, collection };
+export { dbService, auth, storage, firebaseInstance, timeStamp, collection, db };

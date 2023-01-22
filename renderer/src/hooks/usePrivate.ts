@@ -1,27 +1,21 @@
-import {
-  addDoc,
-  orderBy,
-  query,
-  getDocs,
-  onSnapshot,
-  where,
-} from 'firebase/firestore';
+import { getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { dbService, timeStamp, auth, collection } from 'Fbase.js';
+import { useCollection } from './useCollection';
 
 export const usePrivate = (transaction: any) => {
-  const [list, setlist] = useState([]);
-  console.log(list)
+  const { list } = useCollection('users');
+  const [chatList, setChatList] = useState('');
   useEffect(() => {
-    const q = query(collection(dbService, transaction), orderBy('displayName'));
+    list.forEach(async (item) => {
+      const q = collection(dbService, `${transaction}-${item.id}`);
+      const data = getDocs(q);
+      console.log(q.id);
+      console.log(data);
 
-    onSnapshot(q, (querySnapshot) => {
-      const item = [];
-      querySnapshot.docs.forEach((doc) => {
-        item.push({ ...doc.data(), id: doc.id });
-      });
-      setlist(item);
+      // setChatList(chatId);
     });
   }, [collection]);
-  return { list };
+
+  return { chatList };
 };

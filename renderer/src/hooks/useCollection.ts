@@ -11,9 +11,10 @@ import { dbService, timeStamp, auth, collection } from 'Fbase.js';
 
 export const useCollection = (transaction: any) => {
   const [list, setlist] = useState([]);
+  console.log('list',list)
   useEffect(() => {
     const q = query(collection(dbService, transaction), orderBy('displayName'));
-
+    
     onSnapshot(q, (querySnapshot) => {
       const item = [];
       querySnapshot.docs.forEach((doc) => {
@@ -22,5 +23,7 @@ export const useCollection = (transaction: any) => {
       setlist(item);
     });
   }, [collection]);
+  
+
   return { list };
 };

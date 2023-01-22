@@ -16,7 +16,7 @@ export type UserType = {
 const UserList = (): JSX.Element => {
   const { list } = useCollection('users');
   const router = useRouter();
-  console.log(list);
+  console.log('ddd',list);
   const { currentUser } = useAuth();
   console.log(currentUser);
   // 나를 뺀 나머지 리스트만 보여준다.
@@ -35,10 +35,9 @@ const UserList = (): JSX.Element => {
         <h2 className='text-lg font-bold'>친구</h2>
         <Profile onClick={onClick} />
       </div>
-      <div className='overflow-y-auto w-full'>
+      <div className='overflow-y-auto w-full pt-40'>
         {list &&
           list
-            
             .map((user: UserType, index: number) => {
               return (
                 <User

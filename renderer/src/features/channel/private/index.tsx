@@ -6,6 +6,7 @@ import { collection, orderBy, query, limit, where } from 'firebase/firestore';
 import { dbService } from 'Fbase';
 import { ref } from 'firebase/storage';
 import { useGetMessages } from '../../../hooks/useChannel';
+// import { useGetMessage } from '../../../hooks/usePrivate';
 import { useRouter } from 'next/router';
 
 type ChannelPropsType = {
@@ -14,17 +15,22 @@ type ChannelPropsType = {
     displayName: string;
   };
 };
-const Private = ({ id = null, displayName = null , currentUser = null }): JSX.Element => {
-  console.log(currentUser.id)
-  console.log(id, displayName)
-  
-  
+const Private = ({
+  id = null,
+  displayName = null,
+  currentUser = null,
+}): JSX.Element => {
+  console.log(currentUser.id);
+  console.log(id, displayName);
+
   const router = useRouter();
-  const { addMessage } = useMessage(`messages-${id}`);
-  const messagesRef = useGetMessages(`messages-${id}`);
+  const { addMessage } = useMessage('chatRoom',  `messages-${id}`);
+  const messagesRef = useGetMessages('chatRoom', `messages-${id}`);
+  console.log(messagesRef);
 
   const messages = messagesRef.documents;
-  console.log('ehzb',messages);
+
+  console.log('ehzb', messages);
   const [newMessage, setNewMessage] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,7 +66,7 @@ const Private = ({ id = null, displayName = null , currentUser = null }): JSX.El
 
   useEffect(() => {
     if (bottomListRef.current) {
-      console.log(bottomListRef)
+      console.log(bottomListRef);
       bottomListRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, []);
@@ -68,11 +74,10 @@ const Private = ({ id = null, displayName = null , currentUser = null }): JSX.El
   return (
     <main>
       <div>
-        <div >
-          <div>채 팅
-          </div>
+        <div>
+          <div>채 팅</div>
           <button onClick={() => router.push('/main')}>뒤로가기</button>
-          <div >
+          <div>
             <ul>
               {messages
                 ?.sort((first, second) =>

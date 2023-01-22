@@ -3,12 +3,16 @@ import {
   query,
   addDoc,
   onSnapshot,
-  limit,
+  collectionGroup,
   where,
+  
 } from 'firebase/firestore';
+import 'firebase/firestore';
+
 import { useEffect, useState } from 'react';
-import { dbService, timeStamp, auth, collection } from 'Fbase.js';
+import { dbService, timeStamp, db, collection} from 'Fbase.js';
 import { useRef } from 'react';
+import { useCollection } from './useCollection';
 export const useChannel = (transaction: any) => {
   const [docs, setDocs] = useState([]);
   useEffect(() => {
@@ -25,50 +29,46 @@ export const useChannel = (transaction: any) => {
   // 데이터 조회
 };
 
-export const useGetMessages = (transaction) => {
-  console.log('dddd', transaction);
+export const useGetMessages = (transaction, subtransaction) => {
   const [documents, setDocuments] = useState(null);
-  const [error, setError] = useState(null);
-  console.log(documents);
 
   useEffect(() => {
     const q = query(
-      collection(dbService, transaction),
-      orderBy('createAt'),
-      limit(1000)
+      collectionGroup(dbService, transaction),
+      where(subtransaction, '==', true)
     );
+    console.log('qqq', q);
 
-    const unsubscribe = onSnapshot(
-      collection(dbService, transaction),
-      (snapshot) => {
-        let result = [];
-        snapshot.docs.forEach((doc) => {
-          console.log(doc);
-          result.push({ ...doc.data(), id: doc.id });
-        });
-        setDocuments(result);
-        setError(null);
-      },
-      (error) => {
-        setError(error.message);
-      }
-    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      let result = [];
+      snapshot.docs.forEach((doc) => {
+        console.log('ddd');
+        result.push({ ...doc.data(), id: doc.id });
+      });
+      setDocuments(result);
+    });
 
     return unsubscribe;
   }, [collection]);
 
   console.log(documents);
 
-  return { documents, error };
+  return { documents };
 };
 
-export const useMessage = (transaction) => {
-  const addM = collection(dbService, transaction);
+export const useMessage = (transaction, sub) => {
+  const messageRef = collection(dbService, transaction)
   const addMessage = async (messages) => {
+    console.log(messages);
     try {
       const createdAt = timeStamp.fromDate(new Date());
-      console.log('id', messages);
-      await addDoc(addM, { ...messages, createdAt });
+      const lastTime = timeStamp.fromDate(new Date());
+
+      await addDoc(collection(messageRef, 'chat', sub), {
+        ...messages,
+        createdAt,
+        lastTime,
+      });
     } catch (err) {
       console.log(err);
     }

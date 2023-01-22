@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { Timestamp } from 'firebase/firestore';
 import Chat from './chat';
 import { usePrivate } from 'src/hooks/usePrivate';
+import { useAuth } from 'context/user.context';
 
 export type UserType = {
   createdTime?: Timestamp;
@@ -12,13 +13,17 @@ export type UserType = {
 };
 
 const ChatList = (): JSX.Element => {
-  const { list } = usePrivate('messages');
+  
+  const { chatList } = usePrivate('messages');
   const router = useRouter();
-  console.log(list)
+  console.log('ddd', chatList);
 
   const onClick = (e) => {
-    const {id, displayName } = e;
-    router.push({ pathname: '/chat-room/[id]', query: { id: id, displayName: displayName } });
+    const { id, displayName } = e;
+    router.push({
+      pathname: '/chat-room/[id]',
+      query: { id: id, displayName: displayName },
+    });
   };
 
   return (
@@ -27,9 +32,8 @@ const ChatList = (): JSX.Element => {
         <h2 className='text-lg font-bold'>1:1</h2>
       </div>
       <div className='overflow-y-auto w-full'>
-        {list &&
-          list.map((user: UserType, index: number) => {
-            
+        {/* {chatList &&
+          chatList.map((user: UserType, index: number) => {
             return (
               <Chat
                 user={user}
@@ -38,7 +42,7 @@ const ChatList = (): JSX.Element => {
                 onClick={() => onClick(user)}
               />
             );
-          })}
+          })} */}
       </div>
     </main>
   );
