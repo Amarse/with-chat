@@ -5,6 +5,7 @@ import GroupIcon from 'assets/images/group.svg';
 import { useRouter } from 'next/router';
 import NavTitle, { NavTitleProps } from './nav-title';
 import { useAuth } from 'context/user.context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
   children: ReactElement<NavTitleProps>[];
@@ -16,8 +17,6 @@ const Navs = (props: Props): JSX.Element => {
   const [selectedNavIndex, setSelectedNavIndex] = useState<number>(
     preSelectedTabIndex || 0
   );
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const { user, logout } = useAuth();
   const router = useRouter();
 
@@ -38,13 +37,12 @@ const Navs = (props: Props): JSX.Element => {
             <NavTitle
               key={item.props.title}
               index={index}
-              isActive={index === selectedNavIndex}
               setSelectedNav={setSelectedNavIndex}
               title={item.props.title}
             />
           ))}
-          <button onClick={logedout} className='absolute bottom-0'>
-            로그아웃
+          <button onClick={logedout} className="w-6 h-6 py-3 hover:text-gray-300">
+            <img src='/assets/images/out.svg' alt="logout" />
           </button>
         </ul>
       </nav>

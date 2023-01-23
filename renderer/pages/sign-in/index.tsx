@@ -15,8 +15,10 @@ const Singin = () => {
     password: '',
     confirmPassword: '',
   });
+  const [text, enableButton] = useState('');
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    enableButton(e.target.value);
     e.preventDefault();
     setData({
       ...data,
@@ -140,11 +142,23 @@ const Singin = () => {
 
           <button
             type='submit'
-            className='mt-2 disabled:bg-gray-300 group relative flex w-full justify-center border  border-gray-400 py-2 px-4 text-sm font-medium text-gray-400 bg-gray-100 hover:bg-gray-500 focus:outline-none'
+            className='disabled:bg-gray-300  disabled:text-gray-400 group relative flex w-full justify-center border  border-gray-400 bg-gray-400 py-2 px-4 text-sm font-medium text-white'
+            disabled={!text}
           >
-            <span>가입하기</span>
+            <span>회원가입</span>
           </button>
         </form>
+        <div className='flex items-center justify-center py-12 px-4'>
+          <div className='text-sm px-4 '>
+            <a
+              href='#'
+              className=' text-gray-500 hover:text-gray-400'
+              onClick={() => router.push('/login')}
+            >
+              돌아가기
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );

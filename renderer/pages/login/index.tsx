@@ -11,10 +11,11 @@ const Login = (): JSX.Element => {
     email: '',
     password: '',
   });
+  const [text, enableButton] = useState('');
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-
+    enableButton(e.target.value);
     setData({
       ...data,
       email: e.target.value,
@@ -86,7 +87,8 @@ const Login = (): JSX.Element => {
 
           <button
             type='submit'
-            className='disabled:bg-gray-300 group relative flex w-full justify-center border  border-gray-400 bg-gray-100 py-2 px-4 text-sm font-medium text-gray-400 hover:bg-gray-500 focus:outline-none'
+            className='disabled:bg-gray-300  disabled:text-gray-400 group relative flex w-full justify-center border  border-gray-400 bg-gray-400 py-2 px-4 text-sm font-medium text-white'
+            disabled={!text}
           >
             <span>로그인</span>
           </button>
@@ -95,7 +97,7 @@ const Login = (): JSX.Element => {
           <div className='text-sm px-4 '>
             <a
               href='#'
-              className=' text-gray-700 hover:text-gray-500'
+              className=' text-gray-500 hover:text-gray-400'
               onClick={() => router.push('/sign-in')}
             >
               회원 가입
