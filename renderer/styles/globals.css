@@ -41,6 +41,12 @@
   .item {
     align-items: center;
   }
+  input:focus {
+    outline: none;
+  }
+  .header{
+    line-height: 80px;
+  }
 }
 
 @layer components {

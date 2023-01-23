@@ -7,7 +7,15 @@ module.exports = {
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
-
     return config;
+  },
+  async redirects() {
+    return [
+      {
+        source: '/main',
+        destination: '/',
+        permanent: true,
+      },
+    ];
   },
 };
