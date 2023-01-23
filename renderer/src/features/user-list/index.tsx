@@ -7,6 +7,7 @@ import { useAuth } from 'context/user.context';
 import Profile from 'features/profile';
 
 export type UserType = {
+  [x: string]: any;
   createdTime?: Timestamp;
   email: string;
   displayName: string;
@@ -17,14 +18,21 @@ const UserList = (): JSX.Element => {
   const { list } = useCollection('users');
   const router = useRouter();
   const { currentUser } = useAuth();
-  
+  const userInfo = list.filter(function (item, idx, self) {
+    return self.indexOf(item) == idx;
+  });
+  console.log(userInfo);
   const onClick = (e) => {
     const { id, displayName } = e;
-    // if (id === id) return;
-    router.push({
-      pathname: '/chat-room/[id]',
-      query: { id: id, displayName: displayName },
-    });
+    if (id !== currentUser.id) {
+      router.push(
+        {
+          pathname: '/group-room/[id]',
+          query: { id: id, displayName: displayName, currentUser: currentUser },
+        },
+        '/group-room/[id]'
+      );
+    }
   };
 
   return (
@@ -36,14 +44,16 @@ const UserList = (): JSX.Element => {
       <div className='overflow-y-auto w-full pt-40'>
         {list &&
           list.map((user: UserType, index: number) => {
-            return (
-              <User
-                user={user}
-                index={index}
-                key={user.id}
-                onClick={() => onClick(user)}
-              />
-            );
+            if (user.email !== currentUser.email) {
+              return (
+                <User
+                  user={user}
+                  index={index}
+                  key={user.id}
+                  onClick={() => onClick(user)}
+                />
+              );
+            }
           })}
       </div>
     </main>

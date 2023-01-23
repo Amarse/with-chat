@@ -20,9 +20,7 @@ export const useCollection = (transaction: any) => {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const item = [];
       querySnapshot.docs.forEach((doc) => {
-        if (doc.data().email !== currentUser.email) {
-          item.push({ ...doc.data(), id: doc.id });
-        }
+        item.push({ ...doc.data(), id: doc.id });
       });
       setlist(item);
     });
@@ -31,4 +29,3 @@ export const useCollection = (transaction: any) => {
 
   return { list };
 };
-
