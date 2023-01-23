@@ -44,8 +44,14 @@
   input:focus {
     outline: none;
   }
-  .header{
+  .header {
     line-height: 80px;
+  }
+  #icon svg:hover {
+    fill: #fff;
+  }
+  #icon svg:hover path {
+    fill: #fce57e;
   }
 }
 

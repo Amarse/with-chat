@@ -5,7 +5,7 @@ import Navs from './nav/navs';
 import Nav from './nav/nav';
 
 import UserList from 'features/user-list';
-import ChatList from 'features/chat-list';
+import ChatList from 'pages/chat-list';
 import GroupList from 'features/group-list';
 import type { NextPageWithLayout } from '../../../pages/_app';
 

@@ -1,10 +1,4 @@
-import { DetailedHTMLProps, ImgHTMLAttributes, useCallback } from 'react';
-import UserIcon from 'assets/images/user.svg';
-import Image from 'next/image';
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from '@fortawesome/react-fontawesome';
+import { useCallback } from 'react';
 
 export type NavTitleProps = {
   title: string;
@@ -28,7 +22,10 @@ const NavTitle = (props: NavTitleProps): JSX.Element => {
         className='py-3 text-gray-700'
       >
         <div className='relative h-6 w-6 text-gray-400'>
-          <img src={`/assets/images/${title}.svg`} alt={title}/>
+          <img
+            src={`/assets/images/${title}.svg`}
+            alt={title}
+          />
         </div>
       </button>
     </li>

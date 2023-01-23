@@ -35,6 +35,8 @@ export const AuthContextProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   
+  const [friendList, setFriendList] = useState(null);
+  
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

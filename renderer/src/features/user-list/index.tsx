@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useCollection } from '../../hooks/useUserList';
 import User from './user';
@@ -17,20 +17,19 @@ export type UserType = {
 const UserList = (): JSX.Element => {
   const { list } = useCollection('users');
   const router = useRouter();
+  const { id } = router.query;
   const { currentUser } = useAuth();
-  const userInfo = list.filter(function (item, idx, self) {
-    return self.indexOf(item) == idx;
-  });
-  console.log(userInfo);
+
+
   const onClick = (e) => {
     const { id, displayName } = e;
     if (id !== currentUser.id) {
       router.push(
         {
-          pathname: '/group-room/[id]',
+          pathname: '/chat-room/[id]',
           query: { id: id, displayName: displayName, currentUser: currentUser },
         },
-        '/group-room/[id]'
+        '/chat-room/[id]'
       );
     }
   };

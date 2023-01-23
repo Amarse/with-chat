@@ -12,7 +12,8 @@ export interface UserData {
 }
 
 export interface ChannelPropsType {
-  id: string;
-  displayName: string;
-  currentUser: UserData;
+  id?: string | string[];
+  displayName?: string | string[] ;
+  currentUser?: UserData;
+  friendName?: string | string[];
 }

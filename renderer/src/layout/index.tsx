@@ -11,5 +11,5 @@ type LayoutProps = {
 };
 
 export const NavLayout = ({ children }: LayoutProps) => {
-  return <div className='h-full w-full relative'>{children}</div>;
+  return <div className='h-full w-full fiexd'>{children}</div>;
 };

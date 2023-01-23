@@ -4,6 +4,7 @@ import type { ReactElement, ReactNode } from 'react';
 import '../styles/globals.css';
 import { AuthContextProvider } from 'context/user.context';
 import { useRouter } from 'next/router';
+import SideBar from 'features/side-bar';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

@@ -1,35 +1,20 @@
 import { useAuth } from 'context/user.context';
 import React, { useState, useRef, useEffect } from 'react';
-import { useChannel, useMessage } from 'src/hooks/useChannel';
+import { useGetChatRooms, useMessage } from 'src/hooks/useChannel';
 import Message from '../message';
-import { collection, orderBy, query, limit, where } from 'firebase/firestore';
-import { dbService } from 'Fbase';
-import { ref } from 'firebase/storage';
+
 import { useGetMessages } from '../../../hooks/useChannel';
-// import { useGetMessage } from '../../../hooks/usePrivate';
 import { useRouter } from 'next/router';
+import { UserData } from 'src/types';
+import { ChannelPropsType } from 'src/types';
 
-type ChannelPropsType = {
-  user: {
-    uid: string;
-    displayName: string;
-  };
-};
-const Private = ({
-  id = null,
-  displayName = null,
-  currentUser = null,
-}): JSX.Element => {
-  console.log(currentUser.id);
-  console.log(id, displayName);
-
+const Private = (props: ChannelPropsType): JSX.Element => {
+  const { id, displayName, currentUser, friendName } = props;
   const router = useRouter();
-  const { addMessage } = useMessage(`messages-${id}`);
-  const messagesRef = useGetMessages(`messages-${id}`);
-
+  const { addMessage } = useMessage('message');
+  const messagesRef = useGetMessages('message');
   const messages = messagesRef.documents;
 
-  console.log('ehzb', messages);
   const [newMessage, setNewMessage] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +26,7 @@ const Private = ({
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('dd',e);
+    console.log('dd', e);
     e.preventDefault();
 
     const trimmedMessage = newMessage.trim();
@@ -49,8 +34,10 @@ const Private = ({
       addMessage({
         displayName: currentUser.displayName,
         message: trimmedMessage,
-        uid: currentUser.id,
-        isRead: false,
+        id: currentUser.id,
+        uid: id,
+        roomId: id,
+        friendName: displayName,
       });
       setNewMessage('');
       bottomListRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -73,30 +60,40 @@ const Private = ({
   return (
     <main>
       <div>
+        <div className='w-full fixed top-0 bg-gray-100 text-center h-20 header'>
+          <button
+            onClick={() => router.push('/main')}
+            className='absolute left-3 top-7'
+          >
+            <img
+              src='/assets/images/back-button.svg'
+              className='text-gray-900'
+            />
+          </button>
+          {id ? (
+            <span className='font-bold text-lg'>{displayName}</span>
+          ) : (
+            <span className='font-bold text-lg'>{currentUser.displayName}</span>
+          )}
+        </div>
         <div>
-          <div>채 팅</div>
-          <button onClick={() => router.push('/main')}>뒤로가기</button>
-          <div>
-            <ul>
-              {messages
-                ?.sort((first, second) =>
-                  first?.createdAt?.seconds <= second?.createdAt?.seconds
-                    ? -1
-                    : 1
-                )
-                ?.map((message) => (
-                  <li key={message.id}>
-                    <Message {...message} />
-                  </li>
-                ))}
-            </ul>
-            <div ref={bottomListRef} className='mb-16' />
-          </div>
+          <ul className='pt-'>
+            {messages
+              ?.sort((first, second) =>
+                first?.createdAt?.seconds <= second?.createdAt?.seconds ? -1 : 1
+              )
+              ?.map((message) => (
+                <li key={message.id}>
+                  <Message {...message} />
+                </li>
+              ))}
+          </ul>
+          <div ref={bottomListRef} className='mb-16' />
         </div>
       </div>
 
       {/* 채팅 입력 폼 생성 */}
-      <div className='fixed bottom-0 w-full'>
+      <div className='fixed bottom-0 border border-t-gray-200 bg-white w-full'>
         <form onSubmit={onSubmit} className='flex'>
           <input
             ref={inputRef}
@@ -104,12 +101,12 @@ const Private = ({
             value={newMessage}
             onChange={onChange}
             placeholder='메세지를 입력하세요'
-            className='border rounded-full px-4 h-10 flex-1 mr-1 ml-1'
+            className='px-4 h-20 flex-1 mr-1 ml-1 focus:none '
           />
           <button
             type='submit'
             disabled={!newMessage}
-            className='uppercase font-semibold text-sm tracking-wider text-gray-500 hover:text-gray-900 transition-colors'
+            className='uppercase w-20 font-semibold text-sm tracking-wider  bg-white text-gray-500 hover:text-gray-900 transition-colors'
           >
             Send
           </button>

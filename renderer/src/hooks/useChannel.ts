@@ -17,6 +17,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { dbService, timeStamp, db, collection } from 'Fbase.js';
 import { useRef } from 'react';
 import { useCollection } from './useUserList';
+
 export const useChannel = (transaction: any) => {
   const [docs, setDocs] = useState([]);
   useEffect(() => {
@@ -37,7 +38,8 @@ export const useGetMessages = (transaction) => {
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(dbService, transaction));
+    const q = query(collectionGroup(dbService, transaction));
+    console.log(q);
     const unsubscribe = onSnapshot(q, (snapshot) => {
       let result = [];
       snapshot.docs.forEach((doc) => {
@@ -55,13 +57,14 @@ export const useGetMessages = (transaction) => {
 };
 
 export const useMessage = (transaction) => {
-  const messageRef = collection(dbService, transaction);
+  const messageRef = collection(dbService, 'ChatRooms');
   const addMessage = async (messages) => {
+    console.log(messages);
     try {
       const createdAt = timeStamp.fromDate(new Date());
       const lastTime = timeStamp.fromDate(new Date());
 
-      await addDoc(messageRef, {
+      await addDoc(collection(messageRef, 'Chat', transaction), {
         ...messages,
         createdAt,
         lastTime,
@@ -75,28 +78,67 @@ export const useMessage = (transaction) => {
   return { addMessage };
 };
 
-export const useGetChatRooms = async () => {
-  const [chatRooms, setChatRooms] = useState([]);
-  const { list } = useCollection('users');
+export const useGetChatRooms = () => {
 
+  const [chatRooms, setChatRooms] = useState([]);
   useEffect(() => {
-    list.map((user) => {
-      const q = query(
-        collection(dbService, `messages-${user.id}`),
-        orderBy('lastTime')
-      );
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        let result = [];
-        snapshot.docs.forEach((doc) => {
-          console.log('ddd', doc);
-          result.push({ ...doc.data(), id: doc.id });
-        });
-        console.log(result);
-        setChatRooms(result);
+    const q = query(
+      collectionGroup(dbService, 'message'),
+      orderBy('friendName'),
+      orderBy('lastTime'),
+      orderBy('message')
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      console.log(snapshot);
+      let result = [];
+      
+      snapshot.docs.forEach((doc) => {
+        result.push({id: doc.id, ...doc.data() });
       });
+      setChatRooms(result);
+
       return unsubscribe;
     });
   }, [collection]);
+  console.log(chatRooms);
 
   return { chatRooms };
+};
+
+export const useGetGroupMessages = (transaction) => {
+  const [documents, setDocuments] = useState([]);
+  useEffect(() => {
+    const q = query(collection(dbService, 'GroupRooms/Group/' + transaction));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      console.log(snapshot);
+      let result = [];
+      snapshot.docs.forEach((doc) => {
+        result.push({ ...doc.data(), id: doc.id });
+      });
+      setDocuments(result);
+    });
+
+    return unsubscribe;
+  }, [collection]);
+
+  return { documents };
+};
+
+export const useGroupMessage = (transaction) => {
+  const messageRef = collection(dbService, 'GroupRooms');
+  const addGroupMessage = async (messages) => {
+    try {
+      const createdAt = timeStamp.fromDate(new Date());
+      const lastTime = timeStamp.fromDate(new Date());
+      await addDoc(collection(messageRef, transaction), {
+        ...messages,
+        createdAt,
+        lastTime,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return { addGroupMessage };
 };

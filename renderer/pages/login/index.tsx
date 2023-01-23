@@ -62,7 +62,7 @@ const Login = (): JSX.Element => {
                 value={data.email}
                 autoComplete='email'
                 required
-                className=' bg-gray-100 relative block w-60 appearance-none rounded-none text-sm border border-b-transparent border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:outline-none  sm:text-sm caret-green-700'
+                className=' bg-gray-100 relative block w-60 appearance-none rounded-none text-sm border border-b-transparent border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400  sm:text-sm caret-green-700'
                 placeholder='이메일'
                 onChange={handleEmail}
               />
@@ -78,7 +78,7 @@ const Login = (): JSX.Element => {
                 autoComplete='current-password'
                 required
                 value={data.password}
-                className=' bg-gray-100 relative block w-full appearance-none rounded-none text-sm border border-t-gray-200 border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400 focus:z-10 focus:outline-none  sm:text-sm caret-green-700'
+                className=' bg-gray-100 relative block w-full appearance-none rounded-none text-sm border border-t-gray-200 border-gray-400 px-3 py-2 text-gray-900 placeholder-gray-400   sm:text-sm caret-green-700'
                 placeholder='비밀번호'
                 onChange={handlePassword}
               />

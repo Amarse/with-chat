@@ -13,7 +13,6 @@ import { useAuth } from 'context/user.context';
 export const useCollection = (transaction: any) => {
   const { currentUser } = useAuth();
   const [list, setlist] = useState([]);
-
   useEffect(() => {
     const q = query(collection(dbService, transaction), orderBy('displayName'));
 
@@ -26,6 +25,5 @@ export const useCollection = (transaction: any) => {
     });
     return unsubscribe;
   }, [collection]);
-
   return { list };
 };

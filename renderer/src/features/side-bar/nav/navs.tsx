@@ -41,7 +41,7 @@ const Navs = (props: Props): JSX.Element => {
               title={item.props.title}
             />
           ))}
-          <button onClick={logedout} className="w-6 h-6 py-3 hover:text-gray-300">
+          <button onClick={logedout} className="w-6 h-6 py-3">
             <img src='/assets/images/out.svg' alt="logout" />
           </button>
         </ul>
