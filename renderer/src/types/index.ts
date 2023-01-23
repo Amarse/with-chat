@@ -6,7 +6,13 @@ export interface IUser {
 }
 
 export interface UserData {
-  uid?: string;
-  userName?: string;
-  photoURL?: string;
+  id?: string;
+  displayName?: string;
+  email?: string;
+}
+
+export interface ChannelPropsType {
+  id: string;
+  displayName: string;
+  currentUser: UserData;
 }
