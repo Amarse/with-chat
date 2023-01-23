@@ -11,8 +11,8 @@ import { ChannelPropsType } from 'src/types';
 const Private = (props: ChannelPropsType): JSX.Element => {
   const { id, displayName, currentUser, friendName } = props;
   const router = useRouter();
-  const { addMessage } = useMessage('message');
-  const messagesRef = useGetMessages('message');
+  const { addMessage } = useMessage(id);
+  const messagesRef = useGetMessages(id);
   const messages = messagesRef.documents;
 
   const [newMessage, setNewMessage] = useState('');
@@ -77,7 +77,7 @@ const Private = (props: ChannelPropsType): JSX.Element => {
           )}
         </div>
         <div>
-          <ul className='pt-'>
+          <ul className='pb-20 pt-20'>
             {messages
               ?.sort((first, second) =>
                 first?.createdAt?.seconds <= second?.createdAt?.seconds ? -1 : 1

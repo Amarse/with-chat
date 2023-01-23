@@ -13,7 +13,6 @@ const Message = (props): JSX.Element => {
     isRead = false,
   } = props;
   const { currentUser } = useAuth();
-  console.log(currentUser.id, uid)
   if (!message) return null;
   return (
     <div
@@ -23,7 +22,7 @@ const Message = (props): JSX.Element => {
     >
       {currentUser?.id === uid && (
         <>
-          <div className={`w-10 ${uid === currentUser?.id ? '' : 'mr-2'}`}>
+          <div className={`w-10 ${uid !== currentUser?.id ? '' : 'mr-2'}`}>
             <img
               src='/assets/images/circle.png'
               alt='Avatar'
@@ -48,7 +47,7 @@ const Message = (props): JSX.Element => {
               uid === currentUser?.id && 'flex-row-reverse'
             }`}
           >
-            {/* {isRead === false && uid === user.id && (
+            {/* {isRead === false && uid === user.id && (run 
                 <div className='text-right text-xxs text-rose-400'>1</div>
               )} */}
             {formatDate(new Date(createdAt.seconds * 1000))}
